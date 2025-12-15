@@ -1,0 +1,12 @@
+main {
+  overflow-x: hidden;
+  display: flex;
+  min-width: 5vw;
+  min-height: 10vh;
+}
+
+
+#card{
+  min-width: 15vw;
+  min-height: 15vh;
+}

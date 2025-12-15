@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+            
+            <link rel="stylesheet" href="css/style.css">
+            
+            <!-- Chosen CSS -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+            
+            <!-- SweetAlert2 -->
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            
+            <!-- Chosen JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+            <style>
+                /* Estilos para a seção de escolaridade */
+                .formacao-item {
+                    background-color: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 8px;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+
+                .formacao-item:hover {
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .formacao-item h6 {
+                    color: #667eea;
+                    font-weight: 600;
+                }
+
+                .instituicao-suggestions {
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    background: white;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    width: calc(100% - 30px);
+                }
+
+                .instituicao-suggestions .list-group-item {
+                    border-left: none;
+                    border-right: none;
+                    padding: 10px 15px;
+                    font-size: 14px;
+                }
+
+                .instituicao-suggestions .list-group-item:hover {
+                    background-color: #f0f0f0;
+                }
+
+                .instituicao-suggestions .list-group-item:first-child {
+                    border-top-left-radius: 4px;
+                    border-top-right-radius: 4px;
+                }
+
+                .instituicao-suggestions .list-group-item:last-child {
+                    border-bottom-left-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                    border-bottom: none;
+                }
+
+                #adicionar-formacao {
+                    border-color: #667eea;
+                    color: #667eea;
+                    transition: all 0.3s ease;
+                }
+
+                #adicionar-formacao:hover {
+                    background-color: #667eea;
+                    color: white;
+                }
+
+                .remover-formacao {
+                    padding: 3px 8px;
+                    font-size: 12px;
+                }
+
+                /* Estilo para labels */
+                .formacao-item label {
+                    font-weight: 500;
+                    color: #495057;
+                    margin-bottom: 5px;
+                }
+
+                /* Estilos responsivos */
+                @media (max-width: 768px) {
+                    .formacao-item {
+                        padding: 15px !important;
+                    }
+
+                    .instituicao-suggestions {
+                        width: calc(100% - 15px);
+                    }
+                }
+
+                /* Estilos para a seção de experiência profissional */
+                .experiencia-item {
+                    background-color: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 8px;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+
+                .experiencia-item:hover {
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .experiencia-item h6 {
+                    color: #28a745;
+                    font-weight: 600;
+                }
+
+                .experiencia-item label {
+                    font-weight: 500;
+                    color: #495057;
+                    margin-bottom: 5px;
+                }
+
+                #adicionar-experiencia {
+                    border-color: #28a745;
+                    color: #28a745;
+                    transition: all 0.3s ease;
+                }
+
+                #adicionar-experiencia:hover {
+                    background-color: #28a745;
+                    color: white;
+                }
+
+                .experiencia-item textarea {
+                    resize: vertical;
+                    min-height: 100px;
+                }
+
+                @media (max-width: 768px) {
+                    .experiencia-item {
+                        padding: 15px !important;
+                    }
+                }
+
+                /* Correção para o layout de cadastro */
+                .login-wrapper {
+                    min-height: 100vh !important;
+                    height: auto !important;
+                    padding: 40px 0 !important;
+                }
+
+                .login-box {
+                    position: relative !important;
+                    transform: none !important;
+                    top: auto !important;
+                    left: auto !important;
+                    margin: 0 auto !important;
+                    max-width: 750px !important;
+                    width: 90% !important;
+                }
+
+                /* Garantir que o background blur cubra toda a tela */
+                body.login-body {
+                    min-height: 100vh;
+                    background-attachment: fixed !important;
+                    background-size: cover !important;
+                }
+
+                /* Garantir que o container tenha scroll suave */
+                .container-fluid.login-wrapper {
+                    overflow-y: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                /* Ajustes para mobile */
+                @media (max-width: 768px) {
+                    .login-box {
+                        width: 95% !important;
+                        padding: 20px !important;
+                    }
+
+                    .login-wrapper {
+                        padding: 20px 0 !important;
+                    }
+                }
+
+                /* Estilos para a seção de conhecimentos técnicos */
+                .conhecimento-item {
+                    background-color: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 8px;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+
+                .conhecimento-item:hover {
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .conhecimento-item h6 {
+                    color: #17a2b8;
+                    font-weight: 600;
+                }
+
+                .conhecimento-item label {
+                    font-weight: 500;
+                    color: #495057;
+                    margin-bottom: 5px;
+                }
+
+                #adicionar-conhecimento {
+                    border-color: #17a2b8;
+                    color: #17a2b8;
+                    transition: all 0.3s ease;
+                }
+
+                #adicionar-conhecimento:hover {
+                    background-color: #17a2b8;
+                    color: white;
+                }
+
+                @media (max-width: 768px) {
+                    .conhecimento-item {
+                        padding: 15px !important;
+                    }
+                }
+            </style>
+
+
+        </head>
+        <body class="login-body">
+            <div class="container-fluid login-wrapper">
+                <div class="login-box">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-2 col-12 ">
+                            <h3 class="mb-2 text-center">ITConnectJobs - Cadastre-se</h3>
+                            <br>
+
+                                            
+                            <!-- Indicador de Steps -->
+                            <div class="step-indicator">
+                                <div class="step-circle active" data-step="1">1</div>
+                                <div class="step-circle" data-step="2">2</div>
+                                <div class="step-circle" data-step="3">3</div>
+                                <div class="step-circle" data-step="4">4</div>
+                            </div>
+                            
+                            <form id="registrar" method="post" class="mt-2">
+                                
+                                
+                               <!-- Step 1: Dados Pessoais -->
+                                <div class="step active" data-step="1">
+                                    <h5 class="mb-3">Dados Pessoais</h5>
+                                    
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome Completo" required>
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                        </div>
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required>
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                        </div>
+                                        <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="Telefone" required>
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <input type="date" name="data_nascimento" id="data_nascimento" class="form-control" placeholder="Data de Nascimento" required>
+                                    </div>
+
+                                     <h6 class="mt-4 mb-3">Endereço</h6>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                        </div>
+                                        <input type="text" name="cep" id="cep" class="form-control" placeholder="CEP" required maxlength="9">
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-road"></i></span>
+                                        </div>
+                                        <input type="text" name="rua" id="rua" class="form-control" placeholder="Rua" required>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                                                </div>
+                                                <input type="text" name="numero" id="numero" class="form-control" placeholder="Número" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fa fa-info-circle"></i></span>
+                                                </div>
+                                                <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento (opcional)">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-building"></i></span>
+                                        </div>
+                                        <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro" required>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fa fa-map"></i></span>
+                                                </div>
+                                                <input type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fa fa-flag"></i></span>
+                                                </div>
+                                                <input type="text" name="estado" id="estado" class="form-control" placeholder="UF" required maxlength="2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 
+                                 <!-- Step 2: Dados Profissionais -->
+                                <div class="step" data-step="2">
+                                    <h5 class="mb-3">Dados Profissionais</h5>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-github"></i></span>
+                                        </div>
+                                        <input type="url" name="github" id="github" class="form-control" placeholder="Link GitHub">
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3">Escolaridade</h6>
+
+                                    <!-- Container para as formações acadêmicas -->
+                                    <div id="formacoes-container">
+                                        <!-- Primeira formação (template) -->
+                                        <div class="formacao-item card mb-3 p-3" data-index="0">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h6 class="mb-0">Formação #<span class="formacao-numero">1</span></h6>
+                                                <button type="button" class="btn btn-sm btn-danger remover-formacao" style="display:none;">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label>Instituição de Ensino</label>
+                                                <input type="text"
+                                                       name="instituicao[]"
+                                                       class="form-control instituicao-input"
+                                                       placeholder="Digite o nome da instituição"
+                                                       autocomplete="off">
+                                                <div class="list-group instituicao-suggestions" style="position: absolute; z-index: 1000; display: none; max-height: 200px; overflow-y: auto;"></div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label>Curso</label>
+                                                <select name="curso[]" class="form-control">
+                                                    <option value="">Selecione o curso</option>
+                                                    <optgroup label="Ciência da Computação e Afins">
+                                                        <option value="ciencia_computacao">Ciência da Computação</option>
+                                                        <option value="engenharia_computacao">Engenharia de Computação</option>
+                                                        <option value="engenharia_software">Engenharia de Software</option>
+                                                        <option value="sistemas_informacao">Sistemas de Informação</option>
+                                                    </optgroup>
+                                                    <optgroup label="Tecnologia da Informação">
+                                                        <option value="analise_desenvolvimento">Análise e Desenvolvimento de Sistemas</option>
+                                                        <option value="gestao_ti">Gestão da Tecnologia da Informação</option>
+                                                        <option value="redes_computadores">Redes de Computadores</option>
+                                                        <option value="seguranca_informacao">Segurança da Informação</option>
+                                                        <option value="banco_dados">Banco de Dados</option>
+                                                        <option value="sistemas_internet">Sistemas para Internet</option>
+                                                    </optgroup>
+                                                    <optgroup label="Áreas Relacionadas">
+                                                        <option value="engenharia_eletrica">Engenharia Elétrica</option>
+                                                        <option value="engenharia_eletronica">Engenharia Eletrônica</option>
+                                                        <option value="matematica">Matemática</option>
+                                                        <option value="estatistica">Estatística</option>
+                                                        <option value="fisica_computacional">Física Computacional</option>
+                                                    </optgroup>
+                                                    <optgroup label="Design e Multimídia">
+                                                        <option value="design_digital">Design Digital</option>
+                                                        <option value="jogos_digitais">Jogos Digitais</option>
+                                                        <option value="design_grafico">Design Gráfico</option>
+                                                    </optgroup>
+                                                    <optgroup label="Gestão e Negócios">
+                                                        <option value="gestao_projetos">Gestão de Projetos</option>
+                                                        <option value="administracao">Administração</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Data de Início</label>
+                                                        <input type="month" name="data_inicio[]" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Data de Conclusão</label>
+                                                        <input type="month" name="data_conclusao[]" class="form-control data-conclusao">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-0">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input cursando-checkbox" id="cursando_0" name="cursando[]" value="1">
+                                                    <label class="custom-control-label" for="cursando_0">
+                                                        Ainda estou cursando
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="adicionar-formacao">
+                                        <i class="fa fa-plus"></i> Adicionar outra formação
+                                    </button>
+
+                                    <h6 class="mt-4 mb-3">Experiência Profissional <small class="text-muted">(Opcional)</small></h6>
+
+                                    <!-- Container para as experiências profissionais -->
+                                    <div id="experiencias-container">
+                                        <!-- Primeira experiência (template) -->
+                                        <div class="experiencia-item card mb-3 p-3" data-index="0">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h6 class="mb-0">Experiência #<span class="experiencia-numero">1</span></h6>
+                                                <button type="button" class="btn btn-sm btn-danger remover-experiencia" style="display:none;">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label>Nome da Empresa</label>
+                                                <input type="text"
+                                                       name="empresa[]"
+                                                       class="form-control"
+                                                       placeholder="Digite o nome da empresa">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label>Cargo</label>
+                                                <select name="cargo[]" class="form-control">
+                                                    <option value="">Selecione o cargo</option>
+                                                    <optgroup label="Desenvolvimento">
+                                                        <option value="desenvolvedor_frontend">Desenvolvedor Front-end</option>
+                                                        <option value="desenvolvedor_backend">Desenvolvedor Back-end</option>
+                                                        <option value="desenvolvedor_fullstack">Desenvolvedor Full-stack</option>
+                                                        <option value="desenvolvedor_mobile">Desenvolvedor Mobile</option>
+                                                        <option value="desenvolvedor_games">Desenvolvedor de Games</option>
+                                                    </optgroup>
+                                                    <optgroup label="Suporte e Infraestrutura">
+                                                        <option value="analista_suporte">Analista de Suporte</option>
+                                                        <option value="tecnico_suporte">Técnico de Suporte</option>
+                                                        <option value="suporte_n1">Suporte Nível 1</option>
+                                                        <option value="suporte_n2">Suporte Nível 2</option>
+                                                        <option value="suporte_n3">Suporte Nível 3</option>
+                                                        <option value="admin_sistemas">Administrador de Sistemas</option>
+                                                        <option value="admin_redes">Administrador de Redes</option>
+                                                    </optgroup>
+                                                    <optgroup label="Engenharia">
+                                                        <option value="engenheiro_software">Engenheiro de Software</option>
+                                                        <option value="engenheiro_dados">Engenheiro de Dados</option>
+                                                        <option value="engenheiro_devops">Engenheiro DevOps</option>
+                                                        <option value="engenheiro_cloud">Engenheiro de Cloud</option>
+                                                        <option value="engenheiro_ml">Engenheiro de Machine Learning</option>
+                                                    </optgroup>
+                                                    <optgroup label="Análise e Dados">
+                                                        <option value="analista_sistemas">Analista de Sistemas</option>
+                                                        <option value="analista_dados">Analista de Dados</option>
+                                                        <option value="cientista_dados">Cientista de Dados</option>
+                                                        <option value="analista_bi">Analista de BI</option>
+                                                    </optgroup>
+                                                    <optgroup label="Arquitetura e Gestão">
+                                                        <option value="arquiteto_software">Arquiteto de Software</option>
+                                                        <option value="arquiteto_solucoes">Arquiteto de Soluções</option>
+                                                        <option value="tech_lead">Tech Lead</option>
+                                                        <option value="coordenador_ti">Coordenador de TI</option>
+                                                        <option value="gerente_ti">Gerente de TI</option>
+                                                        <option value="diretor_tecnologia">Diretor de Tecnologia (CTO)</option>
+                                                    </optgroup>
+                                                    <optgroup label="Banco de Dados">
+                                                        <option value="dba">Administrador de Banco de Dados (DBA)</option>
+                                                        <option value="analista_bd">Analista de Banco de Dados</option>
+                                                    </optgroup>
+                                                    <optgroup label="Segurança">
+                                                        <option value="analista_seguranca">Analista de Segurança da Informação</option>
+                                                        <option value="especialista_cybersecurity">Especialista em Cybersecurity</option>
+                                                        <option value="pentester">Pentester</option>
+                                                    </optgroup>
+                                                    <optgroup label="Qualidade">
+                                                        <option value="qa_analyst">Analista de QA</option>
+                                                        <option value="qa_engineer">Engenheiro de QA</option>
+                                                        <option value="tester">Tester</option>
+                                                        <option value="qa_automation">QA Automation</option>
+                                                    </optgroup>
+                                                    <optgroup label="Gestão de Projetos">
+                                                        <option value="scrum_master">Scrum Master</option>
+                                                        <option value="product_owner">Product Owner</option>
+                                                        <option value="gerente_projetos">Gerente de Projetos</option>
+                                                        <option value="agile_coach">Agile Coach</option>
+                                                    </optgroup>
+                                                    <optgroup label="Design">
+                                                        <option value="ui_designer">UI Designer</option>
+                                                        <option value="ux_designer">UX Designer</option>
+                                                        <option value="product_designer">Product Designer</option>
+                                                        <option value="designer_grafico">Designer Gráfico</option>
+                                                    </optgroup>
+                                                    <optgroup label="Outros">
+                                                        <option value="estagiario">Estagiário</option>
+                                                        <option value="trainee">Trainee</option>
+                                                        <option value="consultor_ti">Consultor de TI</option>
+                                                        <option value="outro">Outro</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Data de Início</label>
+                                                        <input type="month" name="exp_data_inicio[]" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Data de Término</label>
+                                                        <input type="month" name="exp_data_termino[]" class="form-control exp-data-termino">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input trabalhando-checkbox" id="trabalhando_0" name="trabalhando[]" value="1">
+                                                    <label class="custom-control-label" for="trabalhando_0">
+                                                        Trabalho aqui atualmente
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-0">
+                                                <label>Descrição das atividades</label>
+                                                <textarea name="descricao_atividades[]"
+                                                          class="form-control"
+                                                          rows="4"
+                                                          placeholder="Descreva suas principais atividades e responsabilidades nesta função..."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-success btn-sm mb-3" id="adicionar-experiencia">
+                                        <i class="fa fa-plus"></i> Adicionar experiência profissional
+                                    </button>
+
+                                    <h6 class="mt-4 mb-3">Conhecimentos Técnicos (Hard Skills) <small class="text-muted">(Opcional)</small></h6>
+
+                                    <!-- Container para os conhecimentos técnicos -->
+                                    <div id="conhecimentos-container">
+                                        <!-- Primeiro conhecimento (template) -->
+                                        <div class="conhecimento-item card mb-3 p-3" data-index="0">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h6 class="mb-0">Conhecimento #<span class="conhecimento-numero">1</span></h6>
+                                                <button type="button" class="btn btn-sm btn-danger remover-conhecimento" style="display:none;">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label>Habilidade/Tecnologia</label>
+                                                <select name="skill[]" class="form-control">
+                                                    <option value="">Selecione uma habilidade</option>
+                                                    <optgroup label="Linguagens de Programação">
+                                                        <option value="javascript">JavaScript</option>
+                                                        <option value="typescript">TypeScript</option>
+                                                        <option value="python">Python</option>
+                                                        <option value="java">Java</option>
+                                                        <option value="csharp">C#</option>
+                                                        <option value="cpp">C++</option>
+                                                        <option value="c">C</option>
+                                                        <option value="php">PHP</option>
+                                                        <option value="ruby">Ruby</option>
+                                                        <option value="go">Go</option>
+                                                        <option value="rust">Rust</option>
+                                                        <option value="kotlin">Kotlin</option>
+                                                        <option value="swift">Swift</option>
+                                                        <option value="scala">Scala</option>
+                                                    </optgroup>
+                                                    <optgroup label="Frontend">
+                                                        <option value="html">HTML</option>
+                                                        <option value="css">CSS</option>
+                                                        <option value="react">React</option>
+                                                        <option value="angular">Angular</option>
+                                                        <option value="vuejs">Vue.js</option>
+                                                        <option value="nextjs">Next.js</option>
+                                                        <option value="sass">SASS/SCSS</option>
+                                                        <option value="tailwind">Tailwind CSS</option>
+                                                        <option value="bootstrap">Bootstrap</option>
+                                                    </optgroup>
+                                                    <optgroup label="Backend">
+                                                        <option value="nodejs">Node.js</option>
+                                                        <option value="express">Express.js</option>
+                                                        <option value="nestjs">NestJS</option>
+                                                        <option value="django">Django</option>
+                                                        <option value="flask">Flask</option>
+                                                        <option value="spring">Spring Boot</option>
+                                                        <option value="dotnet">.NET</option>
+                                                        <option value="laravel">Laravel</option>
+                                                        <option value="rails">Ruby on Rails</option>
+                                                    </optgroup>
+                                                    <optgroup label="Mobile">
+                                                        <option value="react_native">React Native</option>
+                                                        <option value="flutter">Flutter</option>
+                                                        <option value="android">Android (Java/Kotlin)</option>
+                                                        <option value="ios">iOS (Swift)</option>
+                                                        <option value="ionic">Ionic</option>
+                                                    </optgroup>
+                                                    <optgroup label="Banco de Dados">
+                                                        <option value="mysql">MySQL</option>
+                                                        <option value="postgresql">PostgreSQL</option>
+                                                        <option value="mongodb">MongoDB</option>
+                                                        <option value="redis">Redis</option>
+                                                        <option value="oracle">Oracle</option>
+                                                        <option value="sqlserver">SQL Server</option>
+                                                        <option value="firebase">Firebase</option>
+                                                    </optgroup>
+                                                    <optgroup label="DevOps & Cloud">
+                                                        <option value="docker">Docker</option>
+                                                        <option value="kubernetes">Kubernetes</option>
+                                                        <option value="aws">AWS</option>
+                                                        <option value="azure">Azure</option>
+                                                        <option value="gcp">Google Cloud</option>
+                                                        <option value="jenkins">Jenkins</option>
+                                                        <option value="gitlab_ci">GitLab CI/CD</option>
+                                                        <option value="github_actions">GitHub Actions</option>
+                                                        <option value="terraform">Terraform</option>
+                                                    </optgroup>
+                                                    <optgroup label="Ferramentas & Outros">
+                                                        <option value="git">Git</option>
+                                                        <option value="linux">Linux</option>
+                                                        <option value="scrum">Scrum</option>
+                                                        <option value="jira">Jira</option>
+                                                        <option value="figma">Figma</option>
+                                                        <option value="photoshop">Photoshop</option>
+                                                        <option value="graphql">GraphQL</option>
+                                                        <option value="rest_api">REST API</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Tempo de Experiência</label>
+                                                        <select name="tempo_experiencia[]" class="form-control">
+                                                            <option value="">Selecione</option>
+                                                            <option value="menos_6_meses">Menos de 6 meses</option>
+                                                            <option value="6_12_meses">6 meses a 1 ano</option>
+                                                            <option value="1_2_anos">1 a 2 anos</option>
+                                                            <option value="2_3_anos">2 a 3 anos</option>
+                                                            <option value="3_5_anos">3 a 5 anos</option>
+                                                            <option value="5_mais_anos">Mais de 5 anos</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Nível de Proficiência</label>
+                                                        <select name="nivel[]" class="form-control">
+                                                            <option value="">Selecione</option>
+                                                            <option value="basico">Básico</option>
+                                                            <option value="intermediario">Intermediário</option>
+                                                            <option value="avancado">Avançado</option>
+                                                            <option value="especialista">Especialista</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-info btn-sm mb-3" id="adicionar-conhecimento">
+                                        <i class="fa fa-plus"></i> Adicionar conhecimento
+                                    </button>
+                                </div>
+
+                                <!-- Step 3: Parâmetros de Interesse -->
+                                <div class="step" data-step="3">
+                                    <h5 class="mb-3">Parâmetros de Interesse</h5>
+
+                                    <div class="form-group mb-3">
+                                        <label for="modalidade_trabalho">Modalidade de Trabalho (selecione uma ou mais)</label>
+                                        <select name="modalidade_trabalho[]" id="modalidade_trabalho" class="form-control chosen-select-params" multiple required>
+                                            <option value="presencial">Presencial</option>
+                                            <option value="remoto">Remoto</option>
+                                            <option value="hibrido">Híbrido</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="cargos_interesse">Cargos de Interesse (selecione uma ou mais)</label>
+                                        <select name="cargos_interesse[]" id="cargos_interesse" class="form-control chosen-select-params" multiple required>
+                                            <optgroup label="Desenvolvimento">
+                                                <option value="desenvolvedor_frontend">Desenvolvedor Front-end</option>
+                                                <option value="desenvolvedor_backend">Desenvolvedor Back-end</option>
+                                                <option value="desenvolvedor_fullstack">Desenvolvedor Full-stack</option>
+                                                <option value="desenvolvedor_mobile">Desenvolvedor Mobile</option>
+                                                <option value="desenvolvedor_games">Desenvolvedor de Games</option>
+                                            </optgroup>
+                                            <optgroup label="Suporte e Infraestrutura">
+                                                <option value="analista_suporte">Analista de Suporte</option>
+                                                <option value="tecnico_suporte">Técnico de Suporte</option>
+                                                <option value="admin_sistemas">Administrador de Sistemas</option>
+                                                <option value="admin_redes">Administrador de Redes</option>
+                                            </optgroup>
+                                            <optgroup label="Engenharia">
+                                                <option value="engenheiro_software">Engenheiro de Software</option>
+                                                <option value="engenheiro_dados">Engenheiro de Dados</option>
+                                                <option value="engenheiro_devops">Engenheiro DevOps</option>
+                                                <option value="engenheiro_cloud">Engenheiro de Cloud</option>
+                                                <option value="arquiteto_solucoes">Arquiteto de Soluções</option>
+                                                <option value="arquiteto_software">Arquiteto de Software</option>
+                                            </optgroup>
+                                            <optgroup label="Análise e Dados">
+                                                <option value="analista_sistemas">Analista de Sistemas</option>
+                                                <option value="analista_dados">Analista de Dados</option>
+                                                <option value="cientista_dados">Cientista de Dados</option>
+                                                <option value="analista_bi">Analista de BI</option>
+                                            </optgroup>
+                                            <optgroup label="Gestão">
+                                                <option value="tech_lead">Tech Lead</option>
+                                                <option value="coordenador_ti">Coordenador de TI</option>
+                                                <option value="gerente_ti">Gerente de TI</option>
+                                                <option value="diretor_tecnologia">Diretor de Tecnologia (CTO)</option>
+                                            </optgroup>
+                                            <optgroup label="Banco de Dados">
+                                                <option value="dba">Administrador de Banco de Dados (DBA)</option>
+                                                <option value="analista_bd">Analista de Banco de Dados</option>
+                                            </optgroup>
+                                            <optgroup label="Segurança">
+                                                <option value="analista_seguranca">Analista de Segurança da Informação</option>
+                                                <option value="especialista_cybersecurity">Especialista em Cybersecurity</option>
+                                            </optgroup>
+                                            <optgroup label="Qualidade">
+                                                <option value="qa_analyst">Analista de QA</option>
+                                                <option value="qa_engineer">Engenheiro de QA</option>
+                                            </optgroup>
+                                            <optgroup label="Gestão de Projetos">
+                                                <option value="scrum_master">Scrum Master</option>
+                                                <option value="product_owner">Product Owner</option>
+                                                <option value="gerente_projetos">Gerente de Projetos</option>
+                                            </optgroup>
+                                            <optgroup label="Design">
+                                                <option value="ui_designer">UI Designer</option>
+                                                <option value="ux_designer">UX Designer</option>
+                                                <option value="product_designer">Product Designer</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="nivel_interesse">Nível Profissional de Interesse (selecione uma ou mais)</label>
+                                        <select name="nivel_interesse[]" id="nivel_interesse" class="form-control chosen-select-params" multiple required>
+                                            <option value="estagio">Estágio</option>
+                                            <option value="trainee">Trainee</option>
+                                            <option value="junior">Júnior</option>
+                                            <option value="pleno">Pleno</option>
+                                            <option value="senior">Sênior</option>
+                                            <option value="especialista">Especialista</option>
+                                            <option value="lider">Líder/Coordenador</option>
+                                            <option value="gerente">Gerente</option>
+                                            <option value="diretor">Diretor</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="beneficios_interesse">Benefícios Desejados (selecione uma ou mais)</label>
+                                        <select name="beneficios_interesse[]" id="beneficios_interesse" class="form-control chosen-select-params" multiple>
+                                            <option value="vale_refeicao">Vale Refeição</option>
+                                            <option value="vale_alimentacao">Vale Alimentação</option>
+                                            <option value="vale_transporte">Vale Transporte</option>
+                                            <option value="plano_saude">Plano de Saúde</option>
+                                            <option value="plano_odontologico">Plano Odontológico</option>
+                                            <option value="seguro_vida">Seguro de Vida</option>
+                                            <option value="auxilio_home_office">Auxílio Home Office</option>
+                                            <option value="auxilio_educacao">Auxílio Educação</option>
+                                            <option value="gympass">Gympass/Academia</option>
+                                            <option value="participacao_lucros">Participação nos Lucros (PLR)</option>
+                                            <option value="bonus">Bônus por Performance</option>
+                                            <option value="stock_options">Stock Options</option>
+                                            <option value="day_off">Day Off (Aniversário)</option>
+                                            <option value="horario_flexivel">Horário Flexível</option>
+                                            <option value="licenca_maternidade_estendida">Licença Maternidade Estendida</option>
+                                            <option value="licenca_paternidade_estendida">Licença Paternidade Estendida</option>
+                                            <option value="auxilio_creche">Auxílio Creche</option>
+                                            <option value="previdencia_privada">Previdência Privada</option>
+                                            <option value="carro_empresa">Carro da Empresa</option>
+                                            <option value="notebook_celular">Notebook e Celular</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="faixa_salarial">Faixa Salarial Pretendida</label>
+                                        <input type="text" name="faixa_salarial" id="faixa_salarial" class="form-control" placeholder="R$ 0,00" required>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Senha e Confirmação -->
+                                <div class="step" data-step="4">
+                                    <h5 class="mb-3">Segurança da Conta</h5>
+                                    
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                        </div>
+                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required minlength="6">
+                                    </div>
+
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                        </div>
+                                        <input type="password" name="confirmar_senha" id="confirmar_senha" class="form-control" placeholder="Confirmar Senha" required minlength="6">
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="termos" required>
+                                            <label class="custom-control-label" for="termos">
+                                                Aceito os termos de uso e política de privacidade
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botões de Navegação -->
+                                <div class="navigation-buttons">
+                                    <button type="button" class="btn btn-secondary btn-prev" style="display:none;">
+                                        <i class="fa fa-arrow-left"></i> Anterior
+                                    </button>
+                                    <button type="button" class="btn btn-theme btn-next ml-auto">
+                                        Próximo <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-theme btn-submit ml-auto" style="display:none;">
+                                        <i class="fa fa-check"></i> Cadastrar
+                                    </button>
+                                </div>
+                    
+                            </form>   
+                            <br>
+                            <div class="text-center mt-3">
+                                <p>Já possui conta? <a href="/login" style="color: #667eea;">Faça login</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+          </body>
+
+            <script>
+                // Máscara para telefone
+                const phone = document.getElementById('telefone');
+
+                phone.addEventListener('input', function (e) {
+                let v = e.target.value.replace(/\D/g, ''); // só dígitos
+                if (v.length > 11) v = v.slice(0, 11);
+
+                let formatted;
+                if (v.length <= 2) {
+                    formatted = v;
+                } else if (v.length <= 6) {
+                    formatted = `(${v.slice(0,2)}) ${v.slice(2)}`;
+                } else if (v.length <= 10) {
+                    formatted = `(${v.slice(0,2)}) ${v.slice(2,6)}-${v.slice(6)}`;
+                } else {
+                    // 11 dígitos (celular com 9 na frente)
+                    formatted = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7,11)}`;
+                }
+
+                e.target.value = formatted;
+                });
+
+                // Máscara e integração com ViaCEP para CEP
+                const cep = document.getElementById('cep');
+
+                cep.addEventListener('input', function (e) {
+                    let v = e.target.value.replace(/\D/g, ''); // só dígitos
+                    if (v.length > 8) v = v.slice(0, 8);
+
+                    // Formatar CEP: 00000-000
+                    let formatted;
+                    if (v.length <= 5) {
+                        formatted = v;
+                    } else {
+                        formatted = `${v.slice(0,5)}-${v.slice(5)}`;
+                    }
+
+                    e.target.value = formatted;
+
+                    // Buscar endereço quando completar 8 dígitos
+                    if (v.length === 8) {
+                        buscarCep(v);
+                    }
+                });
+
+                // Função para buscar CEP na API ViaCEP
+                function buscarCep(cep) {
+                    // Limpar campos antes de buscar
+                    const rua = document.getElementById('rua');
+                    const bairro = document.getElementById('bairro');
+                    const cidade = document.getElementById('cidade');
+                    const estado = document.getElementById('estado');
+
+                    // Mostrar loading
+                    rua.value = 'Buscando...';
+                    bairro.value = 'Buscando...';
+                    cidade.value = 'Buscando...';
+                    estado.value = '...';
+
+                    // Desabilitar campos durante a busca
+                    rua.disabled = true;
+                    bairro.disabled = true;
+                    cidade.disabled = true;
+                    estado.disabled = true;
+
+                    // Fazer requisição para ViaCEP
+                    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Habilitar campos novamente
+                            rua.disabled = false;
+                            bairro.disabled = false;
+                            cidade.disabled = false;
+                            estado.disabled = false;
+
+                            if (data.erro) {
+                                // CEP não encontrado
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'CEP não encontrado',
+                                    text: 'O CEP informado não foi encontrado. Verifique e tente novamente.',
+                                });
+                                limparCamposEndereco();
+                            } else {
+                                // Preencher campos com os dados da API
+                                rua.value = data.logradouro || '';
+                                bairro.value = data.bairro || '';
+                                cidade.value = data.localidade || '';
+                                estado.value = data.uf || '';
+
+                                // Focar no campo número se a rua foi preenchida
+                                if (data.logradouro) {
+                                    document.getElementById('numero').focus();
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar CEP:', error);
+
+                            // Habilitar campos novamente
+                            rua.disabled = false;
+                            bairro.disabled = false;
+                            cidade.disabled = false;
+                            estado.disabled = false;
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro ao buscar CEP',
+                                text: 'Não foi possível buscar o endereço. Verifique sua conexão e tente novamente.',
+                            });
+                            limparCamposEndereco();
+                        });
+                }
+
+                // Função para limpar campos de endereço
+                function limparCamposEndereco() {
+                    document.getElementById('rua').value = '';
+                    document.getElementById('bairro').value = '';
+                    document.getElementById('cidade').value = '';
+                    document.getElementById('estado').value = '';
+                }
+
+                // Máscara para valor monetário (Faixa Salarial)
+                const faixaSalarial = document.getElementById('faixa_salarial');
+
+                faixaSalarial.addEventListener('input', function (e) {
+                    let v = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                    // Limitar a 10 dígitos (máximo 99.999.999,99)
+                    if (v.length > 10) v = v.slice(0, 10);
+
+                    // Converter para centavos
+                    v = (parseInt(v) || 0).toString();
+
+                    // Adicionar zeros à esquerda se necessário
+                    while (v.length < 3) {
+                        v = '0' + v;
+                    }
+
+                    // Separar reais e centavos
+                    const centavos = v.slice(-2);
+                    let reais = v.slice(0, -2);
+
+                    // Adicionar separador de milhares
+                    reais = reais.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                    // Formatar como moeda brasileira
+                    e.target.value = `R$ ${reais},${centavos}`;
+                });
+            </script>
+
+
+         <script>
+        // Gerenciamento de Formações Acadêmicas
+        let formacaoIndex = 1;
+
+        // Adicionar nova formação
+        document.getElementById('adicionar-formacao').addEventListener('click', function() {
+            const container = document.getElementById('formacoes-container');
+            const novaFormacao = document.querySelector('.formacao-item').cloneNode(true);
+
+            // Atualizar índice e número
+            novaFormacao.setAttribute('data-index', formacaoIndex);
+            novaFormacao.querySelector('.formacao-numero').textContent = formacaoIndex + 1;
+
+            // Atualizar ID do checkbox
+            const checkbox = novaFormacao.querySelector('.cursando-checkbox');
+            checkbox.id = `cursando_${formacaoIndex}`;
+            checkbox.checked = false;
+            checkbox.nextElementSibling.setAttribute('for', `cursando_${formacaoIndex}`);
+
+            // Limpar valores
+            novaFormacao.querySelectorAll('input[type="text"], input[type="month"]').forEach(input => {
+                input.value = '';
+            });
+            novaFormacao.querySelector('select[name="curso[]"]').value = '';
+
+            // Habilitar campo de data de conclusão
+            novaFormacao.querySelector('.data-conclusao').disabled = false;
+
+            // Mostrar botão de remover
+            novaFormacao.querySelector('.remover-formacao').style.display = 'inline-block';
+
+            // Adicionar ao container
+            container.appendChild(novaFormacao);
+
+            // Incrementar índice
+            formacaoIndex++;
+
+            // Atualizar event listeners
+            atualizarEventListenersFormacao();
+        });
+
+        // Remover formação
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remover-formacao') || e.target.parentElement.classList.contains('remover-formacao')) {
+                const formacao = e.target.closest('.formacao-item');
+                if (formacao) {
+                    formacao.remove();
+                    // Renumerar formações
+                    document.querySelectorAll('.formacao-item').forEach((item, idx) => {
+                        item.querySelector('.formacao-numero').textContent = idx + 1;
+                    });
+                }
+            }
+        });
+
+        // Checkbox "Ainda estou cursando"
+        function atualizarEventListenersFormacao() {
+            document.querySelectorAll('.cursando-checkbox').forEach(checkbox => {
+                // Remover event listeners antigos (clonando e substituindo)
+                const newCheckbox = checkbox.cloneNode(true);
+                checkbox.parentNode.replaceChild(newCheckbox, checkbox);
+
+                newCheckbox.addEventListener('change', function() {
+                    const formacao = this.closest('.formacao-item');
+                    const dataConclusao = formacao.querySelector('.data-conclusao');
+
+                    if (this.checked) {
+                        dataConclusao.value = '';
+                        dataConclusao.disabled = true;
+                        dataConclusao.removeAttribute('required');
+                    } else {
+                        dataConclusao.disabled = false;
+                    }
+                });
+            });
+
+            // Busca de instituições do MEC
+            document.querySelectorAll('.instituicao-input').forEach(input => {
+                const newInput = input.cloneNode(true);
+                input.parentNode.replaceChild(newInput, input);
+
+                let timeoutId;
+                newInput.addEventListener('input', function() {
+                    clearTimeout(timeoutId);
+                    const query = this.value.trim();
+                    const suggestions = this.nextElementSibling;
+
+                    if (query.length < 3) {
+                        suggestions.style.display = 'none';
+                        return;
+                    }
+
+                    timeoutId = setTimeout(() => {
+                        buscarInstituicoesMEC(query, suggestions, this);
+                    }, 500);
+                });
+
+                // Fechar sugestões ao clicar fora
+                document.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('instituicao-input')) {
+                        document.querySelectorAll('.instituicao-suggestions').forEach(s => {
+                            s.style.display = 'none';
+                        });
+                    }
+                });
+            });
+        }
+
+        // Buscar instituições na API do MEC
+        function buscarInstituicoesMEC(query, suggestionsDiv, inputElement) {
+            // Lista de instituições do MEC (amostra das principais - em produção, usar API real)
+            const instituicoesMEC = [
+                "Universidade de São Paulo - USP",
+                "Universidade Estadual de Campinas - UNICAMP",
+                "Universidade Federal do Rio de Janeiro - UFRJ",
+                "Universidade Federal de Minas Gerais - UFMG",
+                "Universidade Federal do Rio Grande do Sul - UFRGS",
+                "Universidade de Brasília - UnB",
+                "Universidade Federal de São Paulo - UNIFESP",
+                "Universidade Federal de Santa Catarina - UFSC",
+                "Universidade Federal do Paraná - UFPR",
+                "Universidade Federal de Pernambuco - UFPE",
+                "Universidade Federal da Bahia - UFBA",
+                "Universidade Federal do Ceará - UFC",
+                "Universidade Federal Fluminense - UFF",
+                "Universidade Federal de São Carlos - UFSCar",
+                "Universidade Federal do ABC - UFABC",
+                "Pontifícia Universidade Católica do Rio de Janeiro - PUC-Rio",
+                "Pontifícia Universidade Católica de São Paulo - PUC-SP",
+                "Pontifícia Universidade Católica do Rio Grande do Sul - PUCRS",
+                "Pontifícia Universidade Católica de Minas Gerais - PUC Minas",
+                "Universidade Presbiteriana Mackenzie",
+                "Universidade Paulista - UNIP",
+                "Universidade Nove de Julho - UNINOVE",
+                "Universidade Anhembi Morumbi",
+                "Centro Universitário FEI",
+                "Instituto Tecnológico de Aeronáutica - ITA",
+                "Instituto Militar de Engenharia - IME",
+                "Faculdade de Tecnologia de São Paulo - FATEC",
+                "Centro Paula Souza - ETEC",
+                "Universidade Estácio de Sá",
+                "Universidade Cruzeiro do Sul",
+                "Universidade Positivo",
+                "Centro Universitário Senac",
+                "Faculdade Impacta de Tecnologia",
+                "Universidade Federal de Viçosa - UFV",
+                "Universidade Federal de Lavras - UFLA",
+                "Universidade Tecnológica Federal do Paraná - UTFPR",
+                "Universidade Federal de Goiás - UFG",
+                "Universidade Federal do Espírito Santo - UFES",
+                "Universidade Federal do Pará - UFPA",
+                "Universidade Federal do Amazonas - UFAM",
+                "Universidade Federal de Mato Grosso - UFMT",
+                "Universidade Federal de Mato Grosso do Sul - UFMS",
+                "Universidade Federal de Sergipe - UFS",
+                "Universidade Federal de Alagoas - UFAL",
+                "Universidade Federal da Paraíba - UFPB",
+                "Universidade Federal do Rio Grande do Norte - UFRN",
+                "Universidade Federal do Maranhão - UFMA",
+                "Universidade Federal do Piauí - UFPI",
+                "Universidade Federal de Rondônia - UNIR",
+                "Universidade Federal do Acre - UFAC",
+                "Universidade Federal de Roraima - UFRR",
+                "Universidade Federal do Amapá - UNIFAP",
+                "Universidade Federal do Tocantins - UFT"
+            ];
+
+            // Filtrar instituições
+            const resultados = instituicoesMEC.filter(inst =>
+                inst.toLowerCase().includes(query.toLowerCase())
+            );
+
+            // Exibir sugestões
+            if (resultados.length > 0) {
+                suggestionsDiv.innerHTML = '';
+                resultados.slice(0, 10).forEach(instituicao => {
+                    const item = document.createElement('a');
+                    item.href = '#';
+                    item.className = 'list-group-item list-group-item-action';
+                    item.textContent = instituicao;
+                    item.style.cursor = 'pointer';
+
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        inputElement.value = instituicao;
+                        suggestionsDiv.style.display = 'none';
+                    });
+
+                    suggestionsDiv.appendChild(item);
+                });
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.innerHTML = '<div class="list-group-item">Nenhuma instituição encontrada</div>';
+                suggestionsDiv.style.display = 'block';
+            }
+        }
+
+        // Inicializar event listeners ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarEventListenersFormacao();
+        });
+    </script>
+
+    <script>
+        // Gerenciamento de Experiências Profissionais
+        let experienciaIndex = 1;
+
+        // Adicionar nova experiência
+        document.getElementById('adicionar-experiencia').addEventListener('click', function() {
+            const container = document.getElementById('experiencias-container');
+            const novaExperiencia = document.querySelector('.experiencia-item').cloneNode(true);
+
+            // Atualizar índice e número
+            novaExperiencia.setAttribute('data-index', experienciaIndex);
+            novaExperiencia.querySelector('.experiencia-numero').textContent = experienciaIndex + 1;
+
+            // Atualizar ID do checkbox
+            const checkbox = novaExperiencia.querySelector('.trabalhando-checkbox');
+            checkbox.id = `trabalhando_${experienciaIndex}`;
+            checkbox.checked = false;
+            checkbox.nextElementSibling.setAttribute('for', `trabalhando_${experienciaIndex}`);
+
+            // Limpar valores
+            novaExperiencia.querySelectorAll('input[type="text"], input[type="month"], textarea').forEach(input => {
+                input.value = '';
+            });
+            novaExperiencia.querySelector('select[name="cargo[]"]').value = '';
+
+            // Habilitar campo de data de término
+            novaExperiencia.querySelector('.exp-data-termino').disabled = false;
+
+            // Mostrar botão de remover
+            novaExperiencia.querySelector('.remover-experiencia').style.display = 'inline-block';
+
+            // Adicionar ao container
+            container.appendChild(novaExperiencia);
+
+            // Incrementar índice
+            experienciaIndex++;
+
+            // Atualizar event listeners
+            atualizarEventListenersExperiencia();
+        });
+
+        // Remover experiência
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remover-experiencia') || e.target.parentElement.classList.contains('remover-experiencia')) {
+                const experiencia = e.target.closest('.experiencia-item');
+                if (experiencia) {
+                    experiencia.remove();
+                    // Renumerar experiências
+                    document.querySelectorAll('.experiencia-item').forEach((item, idx) => {
+                        item.querySelector('.experiencia-numero').textContent = idx + 1;
+                    });
+                }
+            }
+        });
+
+        // Checkbox "Trabalho aqui atualmente"
+        function atualizarEventListenersExperiencia() {
+            document.querySelectorAll('.trabalhando-checkbox').forEach(checkbox => {
+                // Remover event listeners antigos (clonando e substituindo)
+                const newCheckbox = checkbox.cloneNode(true);
+                checkbox.parentNode.replaceChild(newCheckbox, checkbox);
+
+                newCheckbox.addEventListener('change', function() {
+                    const experiencia = this.closest('.experiencia-item');
+                    const dataTermino = experiencia.querySelector('.exp-data-termino');
+
+                    if (this.checked) {
+                        dataTermino.value = '';
+                        dataTermino.disabled = true;
+                        dataTermino.removeAttribute('required');
+                    } else {
+                        dataTermino.disabled = false;
+                    }
+                });
+            });
+        }
+
+        // Inicializar event listeners ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarEventListenersExperiencia();
+        });
+    </script>
+
+    <script>
+        // Gerenciamento de Conhecimentos Técnicos
+        let conhecimentoIndex = 1;
+
+        // Adicionar novo conhecimento
+        document.getElementById('adicionar-conhecimento').addEventListener('click', function() {
+            const container = document.getElementById('conhecimentos-container');
+            const novoConhecimento = document.querySelector('.conhecimento-item').cloneNode(true);
+
+            // Atualizar índice e número
+            novoConhecimento.setAttribute('data-index', conhecimentoIndex);
+            novoConhecimento.querySelector('.conhecimento-numero').textContent = conhecimentoIndex + 1;
+
+            // Limpar valores
+            novoConhecimento.querySelectorAll('select').forEach(select => {
+                select.value = '';
+            });
+
+            // Mostrar botão de remover
+            novoConhecimento.querySelector('.remover-conhecimento').style.display = 'inline-block';
+
+            // Adicionar ao container
+            container.appendChild(novoConhecimento);
+
+            // Incrementar índice
+            conhecimentoIndex++;
+        });
+
+        // Remover conhecimento
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remover-conhecimento') || e.target.parentElement.classList.contains('remover-conhecimento')) {
+                const conhecimento = e.target.closest('.conhecimento-item');
+                if (conhecimento) {
+                    conhecimento.remove();
+                    // Renumerar conhecimentos
+                    document.querySelectorAll('.conhecimento-item').forEach((item, idx) => {
+                        item.querySelector('.conhecimento-numero').textContent = idx + 1;
+                    });
+                }
+            }
+        });
+    </script>
+
+         <script>
+        $(document).ready(() => {
+            let currentStep = 1;
+            const totalSteps = 4;
+
+            // Inicializar Chosen
+            $('.chosen-select').chosen({
+                placeholder_text_multiple: 'Selecione uma ou mais áreas',
+                no_results_text: 'Nenhum resultado encontrado para'
+            });
+
+            // Inicializar Chosen para parâmetros de interesse
+            $('#modalidade_trabalho').chosen({
+                placeholder_text_multiple: 'Selecione uma ou mais modalidades',
+                no_results_text: 'Nenhuma modalidade encontrada'
+            });
+
+            $('#cargos_interesse').chosen({
+                placeholder_text_multiple: 'Selecione um ou mais cargos',
+                no_results_text: 'Nenhum cargo encontrado'
+            });
+
+            $('#nivel_interesse').chosen({
+                placeholder_text_multiple: 'Selecione um ou mais níveis',
+                no_results_text: 'Nenhum nível encontrado'
+            });
+
+            $('#beneficios_interesse').chosen({
+                placeholder_text_multiple: 'Selecione os benefícios desejados',
+                no_results_text: 'Nenhum benefício encontrado'
+            });
+
+            // Função para mostrar step específico
+            function showStep(step) {
+                $('.step').removeClass('active');
+                $(`.step[data-step="${step}"]`).addClass('active');
+                
+                // Atualizar indicadores
+                $('.step-circle').each(function() {
+                    const circleStep = $(this).data('step');
+                    if (circleStep < step) {
+                        $(this).removeClass('active').addClass('completed');
+                    } else if (circleStep === step) {
+                        $(this).addClass('active').removeClass('completed');
+                    } else {
+                        $(this).removeClass('active completed');
+                    }
+                });
+
+                // Mostrar/esconder botões
+                if (step === 1) {
+                    $('.btn-prev').hide();
+                } else {
+                    $('.btn-prev').show();
+                }
+
+                if (step === totalSteps) {
+                    $('.btn-next').hide();
+                    $('.btn-submit').show();
+                } else {
+                    $('.btn-next').show();
+                    $('.btn-submit').hide();
+                }
+            }
+
+            // Validar campos do step atual
+            function validateStep(step) {
+                let isValid = true;
+                $(`.step[data-step="${step}"] input[required], .step[data-step="${step}"] select[required]`).each(function() {
+                    if (!this.checkValidity()) {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+
+                // Validação especial para Parâmetros de Interesse (Step 3)
+                if (step === 3) {
+                    const modalidadeSelected = $('#modalidade_trabalho').val();
+                    if (!modalidadeSelected || modalidadeSelected.length === 0) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'Selecione pelo menos uma modalidade de trabalho.',
+                        });
+                        return false;
+                    }
+
+                    const cargosSelected = $('#cargos_interesse').val();
+                    if (!cargosSelected || cargosSelected.length === 0) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'Selecione pelo menos um cargo de interesse.',
+                        });
+                        return false;
+                    }
+
+                    const nivelSelected = $('#nivel_interesse').val();
+                    if (!nivelSelected || nivelSelected.length === 0) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'Selecione pelo menos um nível profissional de interesse.',
+                        });
+                        return false;
+                    }
+
+                    const faixaSalarial = $('#faixa_salarial').val();
+                    const valorLimpo = faixaSalarial.replace(/[^\d]/g, '');
+                    if (!faixaSalarial || valorLimpo === '000' || parseInt(valorLimpo) === 0) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'Informe a faixa salarial pretendida.',
+                        });
+                        return false;
+                    }
+                }
+
+                // Validação especial para senhas (Step 4)
+                if (step === 4) {
+                    const senha = $('#senha').val();
+                    const confirmarSenha = $('#confirmar_senha').val();
+
+                    if (senha !== confirmarSenha) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'As senhas não coincidem.',
+                        });
+                        return false;
+                    }
+                }
+
+                return isValid;
+            }
+
+            // Botão Próximo
+            $('.btn-next').on('click', () => {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Atenção',
+                        text: 'Por favor, preencha todos os campos obrigatórios.',
+                    });
+                }
+            });
+
+            // Botão Anterior
+            $('.btn-prev').on('click', () => {
+                currentStep--;
+                showStep(currentStep);
+            });
+
+            // Submit do formulário
+            $('.btn-submit').on('click', (e) => {
+                e.preventDefault();
+
+                if (!validateStep(currentStep)) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Atenção',
+                        text: 'Por favor, preencha todos os campos obrigatórios.',
+                    });
+                    return;
+                }
+
+                console.log('Enviando formulário...');
+                let dados = $('#registrar').serialize();
+                console.log(dados);
+
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Processando...',
+                    text: 'Aguarde enquanto salvamos seus dados.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/cadastrarUsuario',
+                    data: dados,
+                    dataType: 'json',
+                    success: response => {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: response.message || 'Cadastro realizado com sucesso!',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Ok'
+                            }).then(() => {
+                                window.location.href = '/';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro ao cadastrar',
+                                text: response.message || 'Ocorreu um erro. Tente novamente.',
+                            });
+                        }
+                    },
+                    error: (xhr, status, erro) => {
+                        console.log('Erro:', xhr.responseText);
+                        let mensagemErro = 'Ocorreu um erro ao processar sua solicitação.';
+
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.message) {
+                                mensagemErro = response.message;
+                            }
+                        } catch (e) {
+                            // Se não conseguir fazer parse, usa a mensagem padrão
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: mensagemErro,
+                        });
+                    }
+                });
+            });
+
+            // Remover classe is-invalid ao digitar
+            $('input, select').on('input change', function() {
+                $(this).removeClass('is-invalid');
+            });
+        });
+    </script>
+
+
+
+    </html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+        
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="css/style.css">
+
+            
+        
+            <!--Passar essa url para importação (Só funciona quando está aqui em cima)-->
+            <!--Para usar a biblioteca "sweetalert" que permite com que eu personalize os "alerts" padrões
+            do Javascript, preciso importar as suas configurações na url -->
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>	
+
+        
+        </head>
+        <body class="login-body">
+            <div class="container-fluid login-wrapper">
+                <div class="login-box">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-2 col-12 ">
+                            <h3 class="mb-2 text-center">ITConnectJobs</h3>
+                            <br>
+                            
+                            <form action="/autenticar" method="post" class="mt-2">
+                                <!--Começo do input do usuário--> 
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input type="text" name="email" class="form-control" placeholder="email" required>
+                                </div>
+                                <!--Começo do input da senha-->
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                    </div>
+                                    <input id="password-field"  name="senha" type="password" class="form-control" placeholder="Senha" required>
+                                </div>
+        
+                                <div class="form-group">
+                                    <button id="Entrar" type="submit" class="form-control btn btn-theme btn-block p-2 mb-1">Entrar</button>
+                                </div>
+                    
+                            </form>
+
+                                <p><small class="text-center">Não tem conta ? Crie agora.</small></p>
+                                
+                                <div class="form-group">
+                                    <button id="cadastrar" action="/cadastrar"  type="submit" class="form-control btn btn-theme-create btn-block p-2 mb-1">Cadastrar-se</button>
+                                </div>
+        
+                        </div>
+                    </div>
+                </div>
+            </div>    
+          </body>
+
+          <script>
+			$(document).ready(() => {
+
+				$('#Entrar').on('click', (e) => {
+					e.preventDefault()
+
+					let dados = $('form').serialize()
+
+					// Mostrar loading
+					Swal.fire({
+						title: 'Autenticando...',
+						text: 'Aguarde enquanto validamos suas credenciais.',
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					});
+
+					$.ajax({
+						type: 'POST',
+						url: '/autenticar',
+						data: dados,
+						dataType: 'json',
+						success: response => {
+							console.log(response);
+                            if(response.success){
+								Swal.fire({
+									icon: 'success',
+									title: 'Bem-vindo!',
+									text: response.message,
+									showConfirmButton: false,
+									timer: 1500
+								}).then(() => {
+									window.location.href = '/listagem';
+								});
+                            }else{
+                            console.log('Erro:', response.message);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Erro ao autenticar',
+                                    text: response.message || 'O login ou senha estão incorretos.',
+                                })
+                            }
+                        },
+						error: (xhr, status, erro) => {
+							console.log('Erro:', xhr.responseText);
+							let mensagemErro = 'Ocorreu um erro ao processar sua solicitação.';
+
+							try {
+								const response = JSON.parse(xhr.responseText);
+								if (response.message) {
+									mensagemErro = response.message;
+								}
+							} catch (e) {
+								// Se não conseguir fazer parse, usa a mensagem padrão
+							}
+
+							Swal.fire({
+								icon: 'error',
+								title: 'Erro ao autenticar',
+								text: mensagemErro,
+							});
+						}
+					})
+				})
+
+                $('#cadastrar').on('click', (e) => {
+                    console.log('Entrei aqui!')
+					window.location.href= '/cadastrar';
+				})
+
+			})
+		</script>
+
+
+
+    </html>

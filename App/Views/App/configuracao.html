@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Perfil</title>
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Chosen CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+
+    <!-- SweetAlert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+            background-color: #0f1623;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background-color: #1a2332;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-item {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #718096;
+        }
+
+        .sidebar-item:hover {
+            background-color: #2d3748;
+            color: #fff;
+        }
+
+        .sidebar-item.active {
+            background-color: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 60px;
+            min-height: 100vh;
+            background-color: #0f1623;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #1a2332;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .search-wrapper {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #0f1623;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #2d3748;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            background-color: #0f1623;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: #f56565;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-name {
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .dropdown-icon {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        /* Configuration Content */
+        .config-container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .config-header {
+            color: #e2e8f0;
+            margin-bottom: 30px;
+        }
+
+        .config-card {
+            background-color: #1a2332;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid #2d3748;
+        }
+
+        .config-card h5 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group label {
+            color: #a0aec0;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            background-color: #ffffff;
+            border: 1px solid #2d3748;
+            color: #000000;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #667eea;
+            color: #000000;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .chosen-container-multi .chosen-choices {
+            background-color: #0f1623 !important;
+            border: 1px solid #2d3748 !important;
+        }
+
+        .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+            color: #e2e8f0 !important;
+        }
+
+        .chosen-container-multi .chosen-choices li.search-choice {
+            background: #667eea !important;
+            border: 1px solid #667eea !important;
+            color: white !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 50px;
+            }
+
+            .main-content {
+                margin-left: 50px;
+            }
+
+            .config-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">SGV</div>
+
+        <div class="sidebar-item" onclick="window.location.href='/listagem'">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="sidebar-item active" onclick="window.location.href='/configuracao'">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div style="width: 100px;"></div>
+
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <input type="text" placeholder="Pesquisar...">
+                    <span class="search-shortcut">Ctrl+K</span>
+                </div>
+            </div>
+
+            <div class="top-bar-right">
+                <div class="icon-btn">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">1</span>
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-avatar">JC</div>
+                    <span class="user-name" id="user-name-display">Carregando...</span>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Content -->
+        <div class="config-container">
+            <div class="config-header">
+                <h2><i class="fas fa-user-cog"></i> Configurações do Perfil</h2>
+                <p class="text-muted">Atualize suas informações pessoais e profissionais</p>
+            </div>
+
+            <form id="form-config">
+                <!-- Dados Pessoais -->
+                <div class="config-card">
+                    <h5><i class="fas fa-user"></i> Dados Pessoais</h5>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nome Completo *</label>
+                                <input type="text" name="nome" id="nome" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" name="email" id="email" class="form-control" required readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Telefone *</label>
+                                <input type="tel" name="telefone" id="telefone" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Data de Nascimento *</label>
+                                <input type="date" name="data_nascimento" id="data_nascimento" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-card">
+                    <h5><i class="fas fa-map-marker-alt"></i> Endereço</h5>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CEP *</label>
+                                <input type="text" name="cep" id="cep" class="form-control" required maxlength="9">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Rua *</label>
+                                <input type="text" name="rua" id="rua" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Número *</label>
+                                <input type="text" name="numero" id="numero" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Complemento</label>
+                                <input type="text" name="complemento" id="complemento" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Bairro *</label>
+                                <input type="text" name="bairro" id="bairro" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Cidade *</label>
+                                <input type="text" name="cidade" id="cidade" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label>UF *</label>
+                                <input type="text" name="estado" id="estado" class="form-control" required maxlength="2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados Profissionais -->
+                <div class="config-card">
+                    <h5><i class="fas fa-briefcase"></i> Dados Profissionais</h5>
+
+                    <div class="form-group">
+                        <label>GitHub</label>
+                        <input type="url" name="github" id="github" class="form-control" placeholder="https://github.com/seu-usuario">
+                    </div>
+                </div>
+
+                <div class="config-card">
+                    <h5><i class="fas fa-star"></i> Parametros de Interesse</h5>
+
+                    <div class="form-group">
+                        <label>Modalidades de Trabalho *</label>
+                        <select name="modalidade_trabalho[]" id="modalidade_trabalho" class="form-control chosen-select" multiple required>
+                            <option value="presencial">Presencial</option>
+                            <option value="remoto">Remoto</option>
+                            <option value="hibrido">Híbrido</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cargos de Interesse *</label>
+                        <select name="cargos_interesse[]" id="cargos_interesse" class="form-control chosen-select" multiple required>
+                            <option value="desenvolvedor_frontend">Desenvolvedor Front-end</option>
+                            <option value="desenvolvedor_backend">Desenvolvedor Back-end</option>
+                            <option value="desenvolvedor_fullstack">Desenvolvedor Full-stack</option>
+                            <option value="desenvolvedor_mobile">Desenvolvedor Mobile</option>
+                            <option value="analista_dados">Analista de Dados</option>
+                            <option value="cientista_dados">Cientista de Dados</option>
+                            <option value="engenheiro_dados">Engenheiro de Dados</option>
+                            <option value="devops">DevOps Engineer</option>
+                            <option value="arquiteto_software">Arquiteto de Software</option>
+                            <option value="tech_lead">Tech Lead</option>
+                            <option value="gerente_projetos">Gerente de Projetos</option>
+                            <option value="product_owner">Product Owner</option>
+                            <option value="scrum_master">Scrum Master</option>
+                            <option value="qa_analyst">Analista de QA</option>
+                            <option value="ux_designer">UX Designer</option>
+                            <option value="ui_designer">UI Designer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nível Profissional *</label>
+                        <select name="nivel_interesse[]" id="nivel_interesse" class="form-control chosen-select" multiple required>
+                            <option value="estagiario">Estagiário</option>
+                            <option value="trainee">Trainee</option>
+                            <option value="junior">Júnior</option>
+                            <option value="pleno">Pleno</option>
+                            <option value="senior">Senior</option>
+                            <option value="especialista">Especialista</option>
+                            <option value="coordenador">Coordenador</option>
+                            <option value="gerente">Gerente</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Benefícios Desejados</label>
+                        <select name="beneficios_interesse[]" id="beneficios_interesse" class="form-control chosen-select" multiple>
+                            <option value="vale_alimentacao">Vale Alimentação</option>
+                            <option value="vale_refeicao">Vale Refeição</option>
+                            <option value="vale_transporte">Vale Transporte</option>
+                            <option value="plano_saude">Plano de Saúde</option>
+                            <option value="plano_odontologico">Plano Odontológico</option>
+                            <option value="seguro_vida">Seguro de Vida</option>
+                            <option value="gympass">Gympass</option>
+                            <option value="auxilio_educacao">Auxílio Educação</option>
+                            <option value="participacao_lucros">Participação nos Lucros</option>
+                            <option value="home_office">Home Office</option>
+                            <option value="horario_flexivel">Horário Flexível</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Faixa Salarial Pretendida *</label>
+                        <input type="text" name="faixa_salarial" id="faixa_salarial" class="form-control" required placeholder="R$ 0,00">
+                    </div>
+                </div>
+
+                <!-- Alterar Senha -->
+                <div class="config-card">
+                    <h5><i class="fas fa-lock"></i> Alterar Senha</h5>
+                    <p class="text-muted small">Deixe em branco se não deseja alterar a senha</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nova Senha</label>
+                                <input type="password" name="nova_senha" id="nova_senha" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Confirmar Nova Senha</label>
+                                <input type="password" name="confirmar_senha" id="confirmar_senha" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" class="btn btn-save">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- Chosen JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+    <!-- jQuery Mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#telefone').mask('(00) 00000-0000');
+            $('#cep').mask('00000-000');
+
+            $('#faixa_salarial').mask('#.##0,00', {reverse: true});
+            $('#faixa_salarial').on('blur', function() {
+                let val = $(this).val();
+                if (val && !val.startsWith('R$ ')) {
+                    $(this).val('R$ ' + val);
+                }
+            });
+
+            // Inicializar Chosen
+            $('.chosen-select').chosen({
+                placeholder_text_multiple: 'Selecione uma ou mais opções',
+                no_results_text: 'Nenhum resultado encontrado'
+            });
+
+            carregarDadosUsuario();
+
+            $('#form-config').on('submit', function(e) {
+                e.preventDefault();
+
+                // Validar senhas se preenchidas
+                const novaSenha = $('#nova_senha').val().trim();
+                const confirmarSenha = $('#confirmar_senha').val().trim();
+
+                // Se um dos campos de senha foi preenchido, ambos devem ser
+                if (novaSenha || confirmarSenha) {
+                    if (!novaSenha || !confirmarSenha) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'Para alterar a senha, preencha ambos os campos (Nova Senha e Confirmar Nova Senha).'
+                        });
+                        return;
+                    }
+
+                    if (novaSenha !== confirmarSenha) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'As senhas não coincidem!'
+                        });
+                        return;
+                    }
+
+                    if (novaSenha.length < 6) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: 'A senha deve ter no mínimo 6 caracteres.'
+                        });
+                        return;
+                    }
+                }
+
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Salvando...',
+                    text: 'Aguarde enquanto atualizamos seus dados.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const dados = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/atualizarUsuario',
+                    data: dados,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: response.message,
+                                showConfirmButton: true
+                            }).then(() => {
+                                // Recarregar dados
+                                carregarDadosUsuario();
+                                // Limpar campos de senha
+                                $('#nova_senha').val('');
+                                $('#confirmar_senha').val('');
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        let mensagem = 'Erro ao atualizar dados.';
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            mensagem = response.message || mensagem;
+                        } catch(e) {}
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: mensagem
+                        });
+                    }
+                });
+            });
+
+            function carregarDadosUsuario() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/getDadosUsuario',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            const user = response.usuario;
+
+                            // Preencher campos
+                            $('#nome').val(user.nome);
+                            $('#email').val(user.email);
+                            $('#telefone').val(user.telefone);
+                            $('#data_nascimento').val(user.data_nascimento);
+                            $('#cep').val(user.cep);
+                            $('#rua').val(user.rua);
+                            $('#numero').val(user.numero);
+                            $('#complemento').val(user.complemento);
+                            $('#bairro').val(user.bairro);
+                            $('#cidade').val(user.cidade);
+                            $('#estado').val(user.estado);
+                            $('#github').val(user.github);
+                            $('#faixa_salarial').val(user.faixa_salarial);
+
+                            if (user.modalidades_trabalho) {
+                                $('#modalidade_trabalho').val(user.modalidades_trabalho);
+                            }
+                            if (user.cargos_interesse) {
+                                $('#cargos_interesse').val(user.cargos_interesse);
+                            }
+                            if (user.niveis_interesse) {
+                                $('#nivel_interesse').val(user.niveis_interesse);
+                            }
+                            if (user.beneficios_interesse) {
+                                $('#beneficios_interesse').val(user.beneficios_interesse);
+                            }
+
+                            // Atualizar chosen
+                            $('.chosen-select').trigger('chosen:updated');
+
+                            // Atualizar nome no header
+                            $('#user-name-display').text(user.nome.split(' ')[0]);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro',
+                            text: 'Não foi possível carregar os dados do usuário.'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

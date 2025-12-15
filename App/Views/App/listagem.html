@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metis - Dashboard</title>
+    
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background-color: #1a2332;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-item {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #718096;
+        }
+
+        .sidebar-item:hover {
+            background-color: #2d3748;
+            color: #fff;
+        }
+
+        .sidebar-item.active {
+            background-color: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 60px;
+            min-height: 100vh;
+            background-color: #0f1623;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #1a2332;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .search-wrapper {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            background-color: #0f1623;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            padding: 10px 15px;
+            padding-right: 80px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .search-box input::placeholder {
+            color: #718096;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: #1a2332;
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #2d3748;
+            color: #718096;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Top Bar Right */
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            width: 35px;
+            height: 35px;
+            background-color: transparent;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background-color: #2d3748;
+            color: #fff;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: #2d3748;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-name {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .dropdown-icon {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 30px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 50px;
+            }
+
+            .main-content {
+                margin-left: 50px;
+            }
+
+            .top-bar {
+                padding: 10px 15px;
+            }
+
+            .search-wrapper {
+                max-width: 300px;
+            }
+
+            .user-name {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">SGV</div>
+        
+        <div class="sidebar-item active" onclick="window.location.href='/listagem'">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="sidebar-item" onclick="window.location.href='/configuracao'">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <!-- Left spacer -->
+            <div style="width: 100px;"></div>
+            
+            <!-- Search Bar -->
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <input type="text" placeholder="Pequisar...">
+                    <span class="search-shortcut">Ctrl+K</span>
+                </div>
+            </div>
+            
+            <!-- Right Side -->
+            <div class="top-bar-right">
+                <div class="icon-btn">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">1</span>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">JC</div>
+                    <span class="user-name">Júlio Coelho</span>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Começo do "container" do sistema -->
+        <div class="container-fluid px-4">
+            <div id="vagas-container" class="row pt-5">
+                <!-- Loading inicial -->
+                <div class="col-12 text-center py-5" id="loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Carregando vagas...</span>
+                    </div>
+                    <p class="mt-3">Analisando compatibilidade das vagas...</p>
+                </div>
+                <!-- Cards serão renderizados aqui dinamicamente -->
+            </div>
+        </div>
+
+    <!-- Bootstrap 4 JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Ativar funcionalidade de busca com Ctrl+K
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.search-box input').focus();
+            }
+        });
+
+        // Funcionalidade dos itens da sidebar
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ==========================================
+        // RENDERIZAR VAGAS COM MATCHING E PAGINAÇÃO
+        // ==========================================
+        let todasVagas = [];
+        let paginaAtual = 1;
+        const vagasPorPagina = 10;
+
+        async function carregarVagas() {
+            const container = document.getElementById('vagas-container');
+            const loading = document.getElementById('loading');
+
+            try {
+                console.log('🔍 Buscando vagas compatíveis...');
+
+                const response = await fetch('/matching');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                console.log('✅ Total de vagas aprovadas (>=48%):', data.total);
+
+                // DEBUG: Mostrar estatísticas por plataforma
+                if (data.debug_stats) {
+                    console.log('\n=== 📊 ESTATÍSTICAS POR PLATAFORMA ===');
+                    console.table(data.debug_stats);
+                    console.log('\n');
+                }
+
+                console.log('📊 Dados completos:', data);
+
+                // Remover loading
+                loading.remove();
+
+                if (data.success && data.vagas && data.vagas.length > 0) {
+                    todasVagas = data.vagas;
+                    renderizarPagina(1);
+                } else {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <h4>Nenhuma vaga compatível encontrada</h4>
+                            <p class="text-muted">Tente atualizar seu perfil para encontrar mais oportunidades.</p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('❌ Erro ao buscar vagas:', error);
+                loading.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <h4 class="text-danger">Erro ao carregar vagas</h4>
+                        <p>${error.message}</p>
+                        <button class="btn btn-primary" onclick="location.reload()">Tentar novamente</button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderizarPagina(pagina) {
+            const container = document.getElementById('vagas-container');
+            paginaAtual = pagina;
+
+            const inicio = (pagina - 1) * vagasPorPagina;
+            const fim = inicio + vagasPorPagina;
+            const vagasPagina = todasVagas.slice(inicio, fim);
+
+            // Limpar container
+            container.innerHTML = '';
+
+            // Renderizar cards da página atual
+            vagasPagina.forEach((vaga, index) => {
+                const card = criarCard(vaga, inicio + index);
+                container.innerHTML += card;
+            });
+
+            // Adicionar paginação
+            container.innerHTML += criarPaginacao();
+        }
+
+        function criarPaginacao() {
+            const totalPaginas = Math.ceil(todasVagas.length / vagasPorPagina);
+
+            if (totalPaginas <= 1) return '';
+
+            let html = '<div class="col-12 mt-4"><nav><ul class="pagination justify-content-center">';
+
+            // Botão Anterior
+            html += `
+                <li class="page-item ${paginaAtual === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="renderizarPagina(${paginaAtual - 1}); return false;">Anterior</a>
+                </li>
+            `;
+
+            // Números das páginas
+            for (let i = 1; i <= totalPaginas; i++) {
+                if (i === 1 || i === totalPaginas || (i >= paginaAtual - 2 && i <= paginaAtual + 2)) {
+                    html += `
+                        <li class="page-item ${i === paginaAtual ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="renderizarPagina(${i}); return false;">${i}</a>
+                        </li>
+                    `;
+                } else if (i === paginaAtual - 3 || i === paginaAtual + 3) {
+                    html += '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                }
+            }
+
+            // Botão Próximo
+            html += `
+                <li class="page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="renderizarPagina(${paginaAtual + 1}); return false;">Próximo</a>
+                </li>
+            `;
+
+            html += '</ul></nav></div>';
+            return html;
+        }
+
+        // Função para criar o HTML de cada card
+        function criarCard(vaga, index) {
+            // Definir gradiente baseado na categoria
+            const gradientes = {
+                'C5': 'linear-gradient(135deg, #20c997 0%, #17a2b8 100%)', // Excelente - Verde/Azul
+                'C4': 'linear-gradient(135deg, #28a745 0%, #20c997 100%)', // Alto - Verde
+                'C3': 'linear-gradient(135deg, #ffc107 0%, #fd7e14 100%)'  // Moderado - Amarelo/Laranja
+            };
+
+            const gradiente = gradientes[vaga.categoria.codigo] || gradientes['C3'];
+
+            // Classe CSS para o badge de compatibilidade
+            const compatClasses = {
+                'C5': 'text-success',
+                'C4': 'text-success',
+                'C3': 'text-warning'
+            };
+
+            const compatClass = compatClasses[vaga.categoria.codigo] || 'text-warning';
+
+            // Ícones por plataforma (usando favicons oficiais)
+            const icones = {
+                'LinkedIn': 'https://cdn-icons-png.flaticon.com/512/174/174857.png',
+                'Glassdoor': 'https://www.glassdoor.com.br/favicon.ico',
+                'Catho': 'https://assets.catho.com.br/ico/favicon.ico',
+                'Indeed': 'https://cdn-icons-png.flaticon.com/512/5968/5968501.png',
+                'Gupy': 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+                'InfoJobs': 'https://cdn-icons-png.flaticon.com/512/3135/3135706.png',
+                'Vagas.com': 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png',
+                'Workana': 'https://cdn-icons-png.flaticon.com/512/3135/3135789.png'
+            };
+
+            const iconePlataforma = icones[vaga.plataforma] || 'https://cdn-icons-png.flaticon.com/512/3135/3135755.png';
+
+            return `
+                <div class="col pb-3" style="flex: 0 0 20%; max-width: 20%;">
+                    <div class="card card-custom bg-white border-white border-0" style="max-height: 340px;">
+                        <div class="card-custom-img" style="background: ${gradiente}; height: 60px;"></div>
+                        <div class="card-custom-avatar" style="margin-top: -35px;">
+                            <img class="img-fluid" src="${iconePlataforma}" alt="${vaga.plataforma}" title="${vaga.plataforma}" style="width: 60px; height: 60px; border-radius: 50%; background: white; padding: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+                        </div>
+                        <div class="card-body" style="overflow: hidden; height: 120px; padding: 15px;">
+                            <span class="badge badge-secondary mb-2" style="font-size: 0.7rem;">${vaga.plataforma}</span>
+                            <h5 class="card-title" style="font-size: 1rem; margin-bottom: 0.5rem; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">${vaga.titulo}</h5>
+                            <h6 class="text-muted" style="font-size: 0.9rem; margin-bottom: 0;">${vaga.empresa}</h6>
+                        </div>
+                        <div class="card-footer" style="background: inherit; border-color: inherit; padding: 12px;">
+                            <a target="_blank" href="${vaga.url_original}" class="btn btn-primary btn-sm">Detalhes</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="removerVaga(${vaga.id_vaga}); return false;">Remover</a>
+                            <span class="${compatClass} font-weight-bold d-block mt-2" style="font-size: 0.9rem;">${vaga.match_final}% - ${vaga.categoria.nome}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para remover vaga (placeholder)
+        function removerVaga(idVaga) {
+            if (confirm('Deseja realmente remover esta vaga das recomendações?')) {
+                console.log('Removendo vaga:', idVaga);
+                // TODO: Implementar backend para remover vaga
+                alert('Funcionalidade em desenvolvimento');
+            }
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Carregando vagas...');
+            carregarVagas();
+        });
+    </script>
+</body>
+</html>
